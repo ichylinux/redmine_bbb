@@ -35,19 +35,27 @@ class Bbb
   end
 
   def getinfo()
-    getMeetingInfo = callApi(@server, "getMeetingInfo","meetingID=" + @meetingID + "&password=" + @moderatorPW, true)
-    return false if not getMeetingInfo
+    isMeetingRunning = callApi(@server, 'isMeetingRunning', 'meegintID=' + @meetingID + '&password=' + @moderatorPW, true)
+    return false if not isMeetingRunning
 
-    doc = REXML::Document.new(getMeetingInfo)
-    @attendees = []
-    if doc.root.elements['returncode'].text == "FAILED"
-        @running = false
-    else
-        @running = doc.root.elements['running'].to_s.downcase == 'true'
-        doc.root.elements['attendees'].each do |attendee|
-           @attendees.push(attendee.elements['fullName'].text)
-        end
+    doc = REXML::Document.new(isMeetingRunning)
+    if doc.root.elements['returncode'].text == "SUCCESS"
+      @running = doc.root.elements['running'].to_s.downcase == 'true'
     end
+
+    if @running
+      getMeetingInfo = callApi(@server, "getMeetingInfo","meetingID=" + @meetingID + "&password=" + @moderatorPW, true)
+      return false if not getMeetingInfo
+
+      doc = REXML::Document.new(getMeetingInfo)
+      @attendees = []
+      if doc.root.elements['returncode'].text == "SUCCESS"
+        doc.root.elements['attendees'].each do |attendee|
+          @attendees.push(attendee.elements['fullName'].text)
+        end
+      end
+    end
+
     return true
   end
 
