@@ -43,7 +43,7 @@ class Bbb
     if doc.root.elements['returncode'].text == "FAILED"
         @running = false
     else
-        @running = true
+        @running = doc.root.elements['running'].to_s.downcase == 'true'
         doc.root.elements['attendees'].each do |attendee|
            @attendees.push(attendee.elements['fullName'].text)
         end
