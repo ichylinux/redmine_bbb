@@ -25,6 +25,7 @@ class BbbController < ApplicationController
       bbb.create(meeting_name, request.referer.to_s)
       ok_to_join = true
     elsif @user.allowed_to?(:bigbluebutton_join, @project)
+      bbb.create(meeting_name, request.referer.to_s)
       ok_to_join = true
     end
 
@@ -50,7 +51,7 @@ class BbbController < ApplicationController
   def find_project
     # @project variable must be set before calling the authorize filter
     if params[:project_id]
-       @project = Project.find_by_identifier(params[:project_id])
+       @project = Project.find(params[:project_id])
     end
   rescue ActiveRecord::RecordNotFound
     render_404
