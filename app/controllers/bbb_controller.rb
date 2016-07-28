@@ -4,6 +4,7 @@ class BbbController < ApplicationController
   before_filter :find_project, :authorize, :find_user
 
   def start
+    raise 'hello'
     # Check if key is correct
     salt = Bbb.salt
     id = params[:id]
@@ -25,7 +26,6 @@ class BbbController < ApplicationController
       bbb.create(meeting_name, request.referer.to_s)
       ok_to_join = true
     elsif @user.allowed_to?(:bigbluebutton_join, @project)
-      bbb.create(meeting_name, request.referer.to_s)
       ok_to_join = true
     end
 
