@@ -30,6 +30,12 @@ class Bbb
                                          "&moderatorPW=" + @moderatorPW + "&logoutURL=" + @back_url + "&voiceBridge=" + @meetingID, true)
   end
 
+  def create2(meeting_name, back_url)
+    @back_url = @back_url.empty? ? back_url : @back_url
+    callApi(@server, "create","name=" + meeting_name + "&meetingID=" + @meetingID + "&attendeePW=" + @attendeePW +
+                                         "&moderatorPW=" + @moderatorPW + "&logoutURL=" + @back_url + "&voiceBridge=" + @meetingID, false)
+  end
+
   def join(password, fullName)
     return callApi(@server, "join", "meetingID=" + @meetingID + "&password="+ password + "&fullName=" + fullName, false)
   end
@@ -99,8 +105,7 @@ class Bbb
         connection = open(url, {'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'})
         return connection.read
       rescue => e
-        raise e
-#        return false
+        return false
       end
     else
       return url
