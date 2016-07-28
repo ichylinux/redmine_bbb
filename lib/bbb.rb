@@ -89,7 +89,7 @@ class Bbb
 
   private
 
-  def callApi (server, api, param, getcontent)
+  def callApi(server, api, param, getcontent)
     tmp = api + param + self.class.salt
     checksum = Digest::SHA1.hexdigest(tmp)
     url = server + "/bigbluebutton/api/" + api + "?" + param + "&checksum=" + checksum
