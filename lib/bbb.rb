@@ -96,9 +96,10 @@ class Bbb
 
     if getcontent
       begin
-        connection = open(url, {'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'})
+        connection = open(url)
         ret = connection.read
         #Rails.logger.info url + ' => ' + ret
+        invalidate(url, (Time.now + 1.minite))
         return ret
 
       rescue => e
