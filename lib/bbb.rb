@@ -36,7 +36,6 @@ class Bbb
 
   def getinfo()
     isMeetingRunning = callApi(@server, 'isMeetingRunning', 'meetingID=' + @meetingID + '&password=' + @moderatorPW, true)
-    Rails.logger.info isMeetingRunning
     return false if not isMeetingRunning
 
     doc = REXML::Document.new(isMeetingRunning)
@@ -98,7 +97,10 @@ class Bbb
     if getcontent
       begin
         connection = open(url, {'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'})
-        return connection.read
+        ret = connection.read
+        Rails.logger.info ret
+        return ret
+
       rescue => e
         return false
       end
