@@ -37,7 +37,7 @@
 
     <% if User.current.allowed_to?(:bigbluebutton_moderator, project) %>
       <br>
-      <%= link_to("Create new room", :controller => 'bbb', :action => 'new_room', :project_id => project.identifier) %>
+      <%= link_to(l(:label_bigbluebutton_start_new), :controller => 'bbb', :action => 'new_room', :project_id => project.identifier) %>
     <% end %>
   <% else %>
     <h3><%= l(:label_bigbluebutton) %></h3>
