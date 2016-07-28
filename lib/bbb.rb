@@ -98,8 +98,9 @@ class Bbb
       begin
         connection = open(url, {'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'})
         return connection.read
-      rescue
-        return false
+      rescue => e
+        raise e
+#        return false
       end
     else
       return url
