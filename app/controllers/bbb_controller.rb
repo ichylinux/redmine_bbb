@@ -18,15 +18,15 @@ class BbbController < ApplicationController
     end
 
     bbb = Bbb.new(meetingID)
-    bbb.getinfo
+    unless bbb.getinfo
+      raise 'getinfo failed'
+    end
 
     ok_to_join = false
     if @user.allowed_to?(:bigbluebutton_start, @project)
-      raise 'hello'
-      bbb.create(meeting_name, request.referer.to_s)
-      ok_to_join = true
+      ok_to_join = bbb.create(meeting_name, request.referer.to_s)
     elsif @user.allowed_to?(:bigbluebutton_join, @project)
-      ok_to_join = true
+      ok_to_join = bbb.running
     end
 
     if ok_to_join
