@@ -41,6 +41,7 @@ class Bbb
     doc = REXML::Document.new(isMeetingRunning)
     if doc.root.elements['returncode'].text == "SUCCESS"
       @running = doc.root.elements['running'].to_s.downcase == 'true'
+      Rails.logger.info "meeting #{@running}"
     end
 
     if @running
