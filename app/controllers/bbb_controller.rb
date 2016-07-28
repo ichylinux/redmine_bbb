@@ -8,13 +8,13 @@ class BbbController < ApplicationController
     salt = Bbb.salt
     id = params[:id]
     key = params[:key]
-    if id and key and (Digest::SHA1.hexdigest(id + @project.identifier + salt)[-16,16] == key) then
-        meetingID = id
-        meeting_name = CGI.escape("Room number " + meetingID)
+    if id and key and (Digest::SHA1.hexdigest(id + @project.identifier + salt)[-16,16] == key)
+      meetingID = id
+      meeting_name = CGI.escape("Room number " + meetingID)
     else
-        # Generate meetingID based on project id starting from 00000
-        meetingID = Bbb.project_to_meetingID(@project)
-        meeting_name = CGI.escape(@project.name)
+      # Generate meetingID based on project id starting from 00000
+      meetingID = Bbb.project_to_meetingID(@project)
+      meeting_name = CGI.escape(@project.name)
     end
 
     bbb = Bbb.new(meetingID)
@@ -50,7 +50,7 @@ class BbbController < ApplicationController
   def find_project
     # @project variable must be set before calling the authorize filter
     if params[:project_id]
-       @project = Project.find(params[:project_id])
+       @project = Project.find_by_identifier(params[:project_id])
     end
   rescue ActiveRecord::RecordNotFound
     render_404
