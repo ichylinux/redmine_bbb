@@ -98,7 +98,7 @@ class Bbb
       begin
         connection = open(url, {'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'})
         ret = connection.read
-        Rails.logger.info api + ' => ' + ret
+        Rails.logger.info url + ' => ' + ret
         return ret
 
       rescue => e
