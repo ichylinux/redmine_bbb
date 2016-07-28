@@ -101,7 +101,7 @@ class Bbb
         #Rails.logger.info url + ' => ' + ret
 
         if options[:cache]
-          OpenURI::Cache.invalidate(url, (Time.now + options[:cache]))
+          OpenURI::Cache.invalidate(url, (Time.now - options[:cache]))
         else
           OpenURI::Cache.invalidate(url)
         end
