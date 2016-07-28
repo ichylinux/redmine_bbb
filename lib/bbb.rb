@@ -96,7 +96,7 @@ class Bbb
 
     if getcontent
       begin
-        connection = open(url)
+        connection = open(url, {'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'})
         return connection.read
       rescue
         return false
