@@ -99,7 +99,7 @@ class Bbb
         connection = open(url)
         ret = connection.read
         #Rails.logger.info url + ' => ' + ret
-        Cache.invalidate(url, (Time.now + 1.minite))
+        Cache.invalidate(url, Time.now + 1.minite)
         return ret
 
       rescue => e
