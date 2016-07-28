@@ -99,10 +99,11 @@ class Bbb
         connection = open(url)
         ret = connection.read
         #Rails.logger.info url + ' => ' + ret
-        Cache.invalidate(url)
+        OpenURI::Cache.invalidate(url)
         return ret
 
       rescue => e
+        Rails.logger.warn e.message
         return false
       end
     else
