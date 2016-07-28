@@ -36,6 +36,7 @@ class Bbb
 
   def getinfo()
     isMeetingRunning = callApi(@server, 'isMeetingRunning', 'meetingID=' + @meetingID + '&password=' + @moderatorPW, true)
+    Rails.logger.info isMeetingRunning
     return false if not isMeetingRunning
 
     doc = REXML::Document.new(isMeetingRunning)
