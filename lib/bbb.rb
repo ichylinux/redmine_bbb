@@ -44,7 +44,7 @@ class Bbb
     end
 
     if @running
-      getMeetingInfo = callApi(@server, "getMeetingInfo","meetingID=" + @meetingID + "&password=" + @moderatorPW, true)
+      getMeetingInfo = callApi(@server, "getMeetingInfo","meetingID=" + @meetingID + "&password=" + @moderatorPW, true, :cache => 1.minute)
       return false if not getMeetingInfo
 
       doc = REXML::Document.new(getMeetingInfo)
@@ -89,7 +89,7 @@ class Bbb
 
   private
 
-  def callApi(server, api, param, getcontent)
+  def callApi(server, api, param, getcontent, options = {})
     tmp = api + param + self.class.salt
     checksum = Digest::SHA1.hexdigest(tmp)
     url = server + "/bigbluebutton/api/" + api + "?" + param + "&checksum=" + checksum
@@ -99,7 +99,12 @@ class Bbb
         connection = open(url)
         ret = connection.read
         #Rails.logger.info url + ' => ' + ret
-        OpenURI::Cache.invalidate(url, (Time.now + 1.minute))
+
+        if options[:cache]
+          OpenURI::Cache.invalidate(url, (Time.now + options[:cache]))
+        else
+          OpenURI::Cache.invalidate(url)
+        end
         return ret
 
       rescue => e
