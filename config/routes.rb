@@ -1,4 +1,9 @@
 RedmineApp::Application.routes.draw do
-  match 'bbb', :controller => :bbb, :action => :start
+  if Rails::VERSION::MAJOR >= 4
+    get 'bbb', :controller => :bbb, :action => :start
+  else
+    match 'bbb', :controller => :bbb, :action => :start
+  end
+
   get 'bbb/:action', :controller => :bbb
 end
